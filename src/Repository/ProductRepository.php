@@ -114,6 +114,7 @@ class ProductRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.discount > 0')
+            ->setMaxResults(4)
             ->getQuery()
             ->getResult();
     }
