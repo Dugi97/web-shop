@@ -1,0 +1,498 @@
+{% extends 'base.html.twig' %}
+
+{% set header = 'fixed-top' %}
+
+{% block body %}
+
+    <div class="fnc-slider example-slider">
+        <div class="fnc-slider__slides">
+            <div class="fnc-slide m--blend-green m--active-slide">
+                <div class="fnc-slide__inner">
+                    <div class="fnc-slide__mask">
+                        <div class="fnc-slide__mask-inner"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="fnc-slide m--blend-dark">
+                <div class="fnc-slide__inner">
+                    <div class="fnc-slide__mask">
+                        <div class="fnc-slide__mask-inner"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="fnc-slide m--blend-red">
+                <div class="fnc-slide__inner">
+                    <div class="fnc-slide__mask">
+                        <div class="fnc-slide__mask-inner"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="fnc-slide m--blend-blue">
+                <div class="fnc-slide__inner">
+                    <div class="fnc-slide__mask">
+                        <div class="fnc-slide__mask-inner"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- slide end -->
+        </div>
+        <nav class="fnc-nav">
+            <div class="fnc-nav__bgs">
+                <div class="fnc-nav__bg m--navbg-green m--active-nav-bg"></div>
+                <div class="fnc-nav__bg m--navbg-dark"></div>
+                <div class="fnc-nav__bg m--navbg-red"></div>
+                <div class="fnc-nav__bg m--navbg-blue"></div>
+            </div>
+            <div class="fnc-nav__controls">
+                <button class="fnc-nav__control">
+                    New collection
+                    <span class="fnc-nav__control-progress"></span>
+                </button>
+                <button class="fnc-nav__control">
+                    Sport collection
+                    <span class="fnc-nav__control-progress"></span>
+                </button>
+                <button class="fnc-nav__control">
+                    Fancy collection
+                    <span class="fnc-nav__control-progress"></span>
+                </button>
+                <button class="fnc-nav__control">
+                    Outlet collection
+                    <span class="fnc-nav__control-progress"></span>
+                </button>
+            </div>
+        </nav>
+    </div>
+
+    <div class="py-4">
+        <div class="text-center">
+            <div class="d-inline-block">
+                <h2>Recommend</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="container">
+            {% set limit = recommended|length / 4 %}
+
+            <div id="carouselExampleIndicators" class="carousel slide mt-4 mb-5" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for i in 1..limit %}
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ i }}" class="{% if i == 1 %}active{% endif %}"></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for i in 1..limit %}
+                        <div class="carousel-item {% if i == 1 %}active{% endif %}">
+                            <div class="row">
+                                {% for product in recommended %}
+                                    <div class="col-md-3">
+                                        <a href="{{ path('view_content', {id: product.id}) }}" class="box text-center">
+                                            <div class="position-absolute status">
+                                                {% if product.publish > date('-10days') %}
+                                                    <div class="bg-dark py-2 px-3 mb-2">
+                                                        <p class="my-0 text-white">New</p>
+                                                    </div>
+                                                {% endif %}
+                                                {% if product.discount > 0 %}
+                                                    <div class="bg-danger py-2 px-3">
+                                                        <p class="my-0 text-white">-{{ product.discount }}%</p>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="pb-5">
+                                                <img class="img-fluid" src="{% if product.images|length > 0 %}{{ asset('products/images/alias/medium/' ~ product.images[0]) }}{% else %}http://placehold.it/300x300{% endif %}" alt="Article">
+                                                <span class="text-black-50 my-2 d-block">{{ product.sku }}</span>
+                                                <p class="my-0 text-dark">{{ product.subCategory }} - {{ product.brand }}</p>
+                                                <h4 class="my-2 text-dark">
+                                                    {% if product.discount > 0 %}
+                                                        <small class="old-price text-danger">
+                                                            {{ product.price|number_format(2, '.', ',') }} RSD
+                                                        </small>
+                                                        <div class="clearfix"></div>
+                                                        <b>{{ (product.price - (product.price * product.discount) / 100)|number_format(2, '.', ',') }} RSD</b>
+                                                    {% else %}
+                                                        <b>{{ product.price|number_format(2, '.', ',') }} RSD</b>
+                                                    {% endif %}
+                                                </h4>
+                                            </div>
+                                        </a>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-4 bg-gray">
+        <div class="container">
+            <div class="py-5">
+                <h1>Some content goes here</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-4">
+        <div class="text-center">
+            <div class="d-inline-block">
+                <h2>Must have</h2>
+                <hr>
+            </div>
+        </div>
+        <div class="container">
+            <div id="must-have" class="carousel slide mt-4 mb-5" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#must-have" data-slide-to="0" class="active"></li>
+                    <li data-target="#must-have" data-slide-to="1"></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="#" class="box text-center">
+                                    <div class="position-absolute status">
+                                        <div class="bg-dark py-2 px-3 mb-2">
+                                            <p class="my-0 text-white">New</p>
+                                        </div>
+                                        <div class="bg-danger py-2 px-3">
+                                            <p class="my-0 text-white">-20%</p>
+                                        </div>
+                                    </div>
+                                    <div class="pb-5">
+                                        <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                        <span class="text-black-50 my-2 d-block">456456465</span>
+                                        <p class="my-0 text-dark">title</p>
+                                        <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="box text-center">
+                                    <div class="position-absolute status">
+                                        <div class="bg-dark py-2 px-3 mb-2">
+                                            <p class="my-0 text-white">New</p>
+                                        </div>
+                                        <div class="bg-danger py-2 px-3">
+                                            <p class="my-0 text-white">-20%</p>
+                                        </div>
+                                    </div>
+                                    <div class="pb-5">
+                                        <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                        <span class="text-black-50 my-2 d-block">456456465</span>
+                                        <p class="my-0 text-dark">title</p>
+                                        <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="box text-center">
+                                    <div class="position-absolute status">
+                                        <div class="bg-dark py-2 px-3 mb-2">
+                                            <p class="my-0 text-white">New</p>
+                                        </div>
+                                        <div class="bg-danger py-2 px-3">
+                                            <p class="my-0 text-white">-20%</p>
+                                        </div>
+                                    </div>
+                                    <div class="pb-5">
+                                        <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                        <span class="text-black-50 my-2 d-block">456456465</span>
+                                        <p class="my-0 text-dark">title</p>
+                                        <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="box text-center">
+                                    <div class="position-absolute status">
+                                        <div class="bg-dark py-2 px-3 mb-2">
+                                            <p class="my-0 text-white">New</p>
+                                        </div>
+                                        <div class="bg-danger py-2 px-3">
+                                            <p class="my-0 text-white">-20%</p>
+                                        </div>
+                                    </div>
+                                    <div class="pb-5">
+                                        <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                        <span class="text-black-50 my-2 d-block">456456465</span>
+                                        <p class="my-0 text-dark">title</p>
+                                        <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <a href="#" class="box text-center">
+                                    <div class="position-absolute status">
+                                        <div class="bg-dark py-2 px-3 mb-2">
+                                            <p class="my-0 text-white">New</p>
+                                        </div>
+                                        <div class="bg-danger py-2 px-3">
+                                            <p class="my-0 text-white">-20%</p>
+                                        </div>
+                                    </div>
+                                    <div class="pb-5">
+                                        <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                        <span class="text-black-50 my-2 d-block">456456465</span>
+                                        <p class="my-0 text-dark">title</p>
+                                        <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="box text-center">
+                                    <div class="position-absolute status">
+                                        <div class="bg-dark py-2 px-3 mb-2">
+                                            <p class="my-0 text-white">New</p>
+                                        </div>
+                                        <div class="bg-danger py-2 px-3">
+                                            <p class="my-0 text-white">-20%</p>
+                                        </div>
+                                    </div>
+                                    <div class="pb-5">
+                                        <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                        <span class="text-black-50 my-2 d-block">456456465</span>
+                                        <p class="my-0 text-dark">title</p>
+                                        <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="box text-center">
+                                    <div class="position-absolute status">
+                                        <div class="bg-dark py-2 px-3 mb-2">
+                                            <p class="my-0 text-white">New</p>
+                                        </div>
+                                        <div class="bg-danger py-2 px-3">
+                                            <p class="my-0 text-white">-20%</p>
+                                        </div>
+                                    </div>
+                                    <div class="pb-5">
+                                        <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                        <span class="text-black-50 my-2 d-block">456456465</span>
+                                        <p class="my-0 text-dark">title</p>
+                                        <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-md-3">
+                                <a href="#" class="box text-center">
+                                    <div class="position-absolute status">
+                                        <div class="bg-dark py-2 px-3 mb-2">
+                                            <p class="my-0 text-white">New</p>
+                                        </div>
+                                        <div class="bg-danger py-2 px-3">
+                                            <p class="my-0 text-white">-20%</p>
+                                        </div>
+                                    </div>
+                                    <div class="pb-5">
+                                        <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                        <span class="text-black-50 my-2 d-block">456456465</span>
+                                        <p class="my-0 text-dark">title</p>
+                                        <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#must-have" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#must-have" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-4 bg-gray">
+        <div class="container">
+            <div class="customer-logos">
+                <div class="slide"><img src="https://www.solodev.com/assets/carousel/image1.png"></div>
+                <div class="slide"><img src="https://www.solodev.com/assets/carousel/image2.png"></div>
+                <div class="slide"><img src="https://www.solodev.com/assets/carousel/image3.png"></div>
+                <div class="slide"><img src="https://www.solodev.com/assets/carousel/image4.png"></div>
+                <div class="slide"><img src="https://www.solodev.com/assets/carousel/image5.png"></div>
+                <div class="slide"><img src="https://www.solodev.com/assets/carousel/image6.png"></div>
+                <div class="slide"><img src="https://www.solodev.com/assets/carousel/image7.png"></div>
+                <div class="slide"><img src="https://www.solodev.com/assets/carousel/image8.png"></div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .slick-slide {
+            margin: 0px 20px;
+        }
+
+        .slick-slide img {
+            width: 100%;
+        }
+
+        .slick-slider
+        {
+            position: relative;
+
+            display: block;
+            box-sizing: border-box;
+
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            -webkit-touch-callout: none;
+            -khtml-user-select: none;
+            -ms-touch-action: pan-y;
+            touch-action: pan-y;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .slick-list
+        {
+            position: relative;
+
+            display: block;
+            overflow: hidden;
+
+            margin: 0;
+            padding: 0;
+        }
+        .slick-list:focus
+        {
+            outline: none;
+        }
+        .slick-list.dragging
+        {
+            cursor: pointer;
+            cursor: hand;
+        }
+
+        .slick-slider .slick-track,
+        .slick-slider .slick-list
+        {
+            -webkit-transform: translate3d(0, 0, 0);
+            -moz-transform: translate3d(0, 0, 0);
+            -ms-transform: translate3d(0, 0, 0);
+            -o-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+
+        .slick-track
+        {
+            position: relative;
+            top: 0;
+            left: 0;
+
+            display: block;
+        }
+        .slick-track:before,
+        .slick-track:after
+        {
+            display: table;
+
+            content: '';
+        }
+        .slick-track:after
+        {
+            clear: both;
+        }
+        .slick-loading .slick-track
+        {
+            visibility: hidden;
+        }
+
+        .slick-slide
+        {
+            display: none;
+            float: left;
+
+            height: 100%;
+            min-height: 1px;
+        }
+        [dir='rtl'] .slick-slide
+        {
+            float: right;
+        }
+        .slick-slide img
+        {
+            display: block;
+        }
+        .slick-slide.slick-loading img
+        {
+            display: none;
+        }
+        .slick-slide.dragging img
+        {
+            pointer-events: none;
+        }
+        .slick-initialized .slick-slide
+        {
+            display: block;
+        }
+        .slick-loading .slick-slide
+        {
+            visibility: hidden;
+        }
+        .slick-vertical .slick-slide
+        {
+            display: block;
+
+            height: auto;
+
+            border: 1px solid transparent;
+        }
+        .slick-arrow.slick-hidden {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/slick.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.customer-logos').slick({
+                slidesToShow: 4,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 1000,
+                arrows: false,
+                dots: false,
+                pauseOnHover: false,
+                responsive: [{
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 3
+                    }
+                }, {
+                    breakpoint: 520,
+                    settings: {
+                        slidesToShow: 2
+                    }
+                }]
+            });
+        });
+    </script>
+{% endblock %}

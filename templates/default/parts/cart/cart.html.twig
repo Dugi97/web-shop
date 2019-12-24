@@ -1,0 +1,5 @@
+<a class="d-flex align-items-center position-relative cart" href="{{ path('checkout') }}">
+    <img class="flex-grow-1 mx-2" src="{{ asset('images/shopping-cart.svg') }}" width="35" alt="Cart">
+    <p class="m-0">Cart</p>
+    {% if isCart %}<div class="dot"></div>{% endif %}
+</a>

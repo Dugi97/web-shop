@@ -1,0 +1,33 @@
+
+{% for g in gender %}
+    <li class="nav-item dropdown mx-3 menu-item position-static">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="{{ g.name }}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ g.name }}
+        </a>
+        <div class="dropdown-menu py-5 {% if g.name == 'Women' %}women{% elseif  g.name == 'Kids' %}kids{% else %}mans{% endif %}" aria-labelledby="{{ g.name }}">
+            <div class="container">
+                <div class="row d-flex justify-content-center p-5 bg-lightwhite">
+                    {% for category in categories %}
+                        <div class="col">
+                            <a href="{{ path('product', {'gender':g.name, 'category':category.name, 'page':1}) }}">{{ category.name }}</a>
+                            <hr>
+                            {% for s_cat in sub_categories %}
+                                {% if category.id == s_cat.category.id %}
+                                    <a class="nav-link pl-0" href="{{ path('product',
+                                        {'subCategory':s_cat.name, 'gender':g.name, 'category':category.name, 'page':1}) }}">
+                                        {{ s_cat.name }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </li>
+{% endfor %}
+
+<li class="nav-item mx-3">
+    <a class="nav-link text-white" href="{{ path('product') }}">Brands</a>
+</li>
+

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html class="h-100">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+        {% endblock %}
+    </head>
+
+
+    <body class="h-100 web">
+        <header class="{% if header is defined %}{{ header }}{% endif %}">
+            <div class="d-flex p-3 justify-content-end align-items-center bg-light">
+                <div class="mx-4">
+                    <ul class="list-inline p-0 m-0">
+                        <li class="list-inline-item mx-2"><a target="_blank" href="#"><img src="{{ asset('images/facebook.svg') }}" width="35" alt="Face"></a></li>
+                        <li class="list-inline-item mx-2"><a target="_blank" href="#"><img src="{{ asset('images/instagram.svg') }}" width="35" alt="Instagram"></a></li>
+                        <li class="list-inline-item mx-2"><a target="_blank" href="#"><img src="{{ asset('images/youtube.svg') }}" width="35" alt="Youtube"></a></li>
+                    </ul>
+                </div>
+                <div class="d-flex align-items-center mx-4">
+                    <img class="flex-grow-1 mx-2" src="{{ asset('images/headphones.svg') }}" width="35" alt="Contact">
+                    <p class="m-0">060 677-96-68</p>
+                </div>
+                <div class="d-flex align-items-center mx-4">
+                    <img class="flex-grow-1 mx-2" src="{{ asset('images/user.svg') }}" width="35" alt="Profile">
+                    <p class="m-0">Profile</p>
+                </div>
+                <div class="ml-4">
+                    {{ render(controller('App\\Controller\\WebController::renderCart')) }}
+                </div>
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-purple d-flex justify-content-center">
+                <div class="flex-grow-1">
+                    <a class="navbar-brand" href="{{ path('home') }}">
+                        <img src="http://placehold.it/150x50" alt="Logo">
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse flex-grow-1" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto flex-grow-1">
+                        {{ render(controller('App\\Controller\\WebController::renderMenu')) }}
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0 flex-grow-1 d-flex justify-content-end">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn text-purple bg-white my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+            </nav>
+        </header>
+
+        {% block body %}{% endblock %}
+
+
+        <footer class="bg-purple pt-5 pb-4">
+            <div class="container">
+                <div class="row justify-content-center align-items-center pb-5">
+                    <div class="col-7">
+                        <form action="{{ path("apply_newsletter") }}" method="post" class="form-inline d-flex">
+                            <div class="form-group mr-3 flex-grow-1">
+                                <input type="email" name="email" class="form-control w-100" placeholder="Newsletter">
+                            </div>
+                            <button type="submit" name="submit" class="btn text-purple bg-white flex-grow-1">Subscribe</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-md-3">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ asset('images//headphones-white.svg') }}" width="25" alt="Phone">
+                            <h5 class="mb-0 ml-3 text-white"><b>Call center</b></h5>
+                        </div>
+                        <hr>
+                        <div>
+                            <p class="text-white">Free call. Working time is from 08AM - 20PM.</p>
+                            <p class="text-white">Saturday working time is from 08AM - 15PM.</p>
+                            <p class="text-white">We do not work on Sunday.</p>
+                            <p class="text-white"><strong>060 677 96 68</strong></p>
+                        </div>
+                    </div>
+                    <div class="col col-md-3">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ asset('images/megaphone.svg') }}" width="25" alt="Info">
+                            <h5 class="mb-0 ml-3 text-white"><b>Information</b></h5>
+                        </div>
+                        <hr>
+                        <ul class="p-0 m-0 list-unstyled">
+                            <li><a class="text-white mb-2 d-block" href="{{ path('about_us') }}">About us</a></li>
+                            <li><a class="text-white mb-2 d-block" href="{{ path('contact_us') }}">Contact us</a></li>
+                        </ul>
+                    </div>
+                    <div class="col col-md-3">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ asset('images/user-white.svg') }}" width="25" alt="User center">
+                            <h5 class="mb-0 ml-3 text-white"><b>User center</b></h5>
+                        </div>
+                        <hr>
+                        <ul class="p-0 m-0 list-unstyled">
+                            <li><a class="text-white mb-2 d-block" href="{{ path('faq') }}">FAQ</a></li>
+                            <li><a class="text-white mb-2 d-block" href="{{ path('delivery') }}">Delivery</a></li>
+                            <li><a class="text-white mb-2 d-block" href="#">Complaints and suggestions</a></li>
+                        </ul>
+                    </div>
+                    <div class="col col-md-3">
+                        <div class="d-flex align-items-center">
+                            <img src="{{ asset('images/shopping-cart-white.svg') }}" width="25" alt="Terms">
+                            <h5 class="mb-0 ml-3 text-white"><b>Terms of sailing</b></h5>
+                        </div>
+                        <hr>
+                        <ul class="p-0 m-0 list-unstyled">
+                            <li><a class="text-white mb-2 d-block" href="#">General terms</a></li>
+                            <li><a class="text-white mb-2 d-block" href="{{ path('payment') }}">Payment</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        {% for message in app.flashes('success') %}
+            <div class="position-fixed success d-flex justify-content-center align-items-center">
+                <div class="alert alert-success my-5">
+                    <p class="m-0">{{ message }}</p>
+                </div>
+            </div>
+        {% endfor %}
+
+        {% block javascripts %}
+            <script src="{{ asset('js/jquery.min.js') }}"></script>
+            <script src="{{ asset('build/app.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

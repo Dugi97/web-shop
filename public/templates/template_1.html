@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-size: 16px;
+            height: 600px;
+        }
+        *, ::before, ::after {
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 0 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .header, .footer {
+            padding: 25px 0;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .bg-purple {
+            background-color: #551A8B;
+        }
+        h1 {
+            margin: 0;
+        }
+        .text-white {
+            color: white;
+        }
+        .footer p {
+            margin: 0;
+        }
+        .content {
+            padding: 50px 0;
+        }
+        .image {
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-color: #551A8B;
+            background-blend-mode: luminosity;
+            height: 380px;
+            width: 100%;
+        }
+        .un-sub {
+            width: 100%;
+            padding: 25px 0 0 0;
+            text-align: right;
+            display: inline-block;
+        }
+        .un-sub a {
+            font-size: 18px;
+            color: #551A8B;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="header bg-purple">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="text-white">Hello</h1>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="image" style="background-image: url('http://web-shop.local/images/template_1_image.jpg')"></div>
+    <div class="container">
+        <div class="un-sub">
+            <a href="http://web-shop.local/newsletter/unsubscribe">Unsubscribe</a>
+        </div>
+        <div class="content">
+            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </div>
+    </div>
+</div>
+<div class="footer bg-purple">
+    <div class="container">
+        <p class="text-white text-center">© MjWebDevelopment 2018</p>
+    </div>
+</div>
+</body>
+</html>

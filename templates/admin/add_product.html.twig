@@ -1,0 +1,118 @@
+{% extends 'base_admin.html.twig' %}
+
+{% set title = 'Add product' %}
+{% set position = 'position-relative' %}
+
+{% block body %}
+    <div class="loader justify-content-center align-items-center">
+        <img src="{{ asset('images/loader.gif') }}" alt="Loader">
+    </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <h4 class="text-dark my-5">Create product by choosing options in fields</h4>
+            <div class="col-9">
+
+                {% for message in app.flashes('error') %}
+                    <div class="alert alert-danger my-5">
+                        <p class="m-0">{{ message }}</p>
+                    </div>
+                {% endfor %}
+
+                {% for message in app.flashes('success') %}
+                    <div class="position-fixed success d-flex justify-content-center align-items-center">
+                        <div class="alert alert-success my-5">
+                            <p class="m-0">{{ message }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+
+                <form enctype="multipart/form-data" action="" method="POST">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ form_row(form.gender) }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form_row(form.category) }}
+                        </div>
+                        <div class="col-md-4">
+                            <label>Select sub category:</label>
+                            <select id="product_subCategory" name="subCategory" required="required" class="form-control mb-3" disabled="disabled">
+                                <option value="" disabled="">choose...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            {{ form_row(form.brand) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(form.colour) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(form.price) }}
+                        </div>
+                        <div class="col-md-3">
+                            {{ form_row(form.material) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label>Select size:</label>
+                                <fieldset id="buildyourform"></fieldset>
+                                <button type="button" class="add btn btn-success" id="add">Add size</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            {{ form(form.description) }}
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label class="btn btn-success position-absolute" for="file">Add images</label>
+                                <input type="file" id="file" multiple name="files[]">
+                                <a class="help" href="#" data-toggle="tooltip" data-placement="top" title="You can add a few images at once. Max size of single image is 2Mb. The best dimensions of the image are 800x800 or dimension proportion 1:1">
+                                    <img src="{{ asset('images/question-mark.svg') }}" width="20" alt="Help">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            {{ form_row(form.save) }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $("#add").click(function() {
+                var lastField = $("#buildyourform div:last");
+                var intId = (lastField && lastField.length && lastField.data("idx") + 1) || 1;
+                var fieldWrapper = $("<div class=\"fieldwrapper\" id=\"field" + intId + "\"/>");
+                fieldWrapper.data("idx", intId);
+                var fName = $("<input type=\"number\" name='qty_"+intId+"' class=\"form-control\" />");
+                var fType = $("" +
+                    "<select class=\"form-control\" name='size_"+intId+"'>" +
+                    {% for size in sizes %}
+                    "<option value=\"{{ size.name }}\">{{ size.name }}</option>" +
+                    {% endfor %}
+                    "</select>");
+                var removeButton = $("<button type=\"button\" class=\"btn btn-success\">-</button>");
+                removeButton.click(function() {
+                    $(this).parent().remove();
+                });
+                fieldWrapper.append(fName);
+                fieldWrapper.append(fType);
+                fieldWrapper.append(removeButton);
+                $("#buildyourform").append(fieldWrapper);
+            });
+        });
+    </script>
+{% endblock %}

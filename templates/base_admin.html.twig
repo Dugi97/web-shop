@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Web Shop{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet">
+
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+        {% endblock %}
+
+    </head>
+    <body class="app">
+        <div class="sidebar bg-purple position-fixed h-100 p-3">
+            <a class="d-flex justify-content-center" href="/admin">
+                <img class="img-fluid" src="http://placehold.it/150x50" alt="Logo">
+            </a>
+            <div class="d-flex justify-content-start py-5">
+                <ul class="list-unstyled">
+                    <li><a data-toggle="tooltip" data-placement="right" title="Add a product" class="text-white my-4 d-block product" href="{{ path('add_product') }}">Add a product</a></li>
+                    <li><a data-toggle="tooltip" data-placement="right" title="Make a structure" class="text-white my-4 d-block organize" href="{{ path('structure') }}">Make a structure</a></li>
+                    <li><a data-toggle="tooltip" data-placement="right" title="Settings" class="text-white my-4 d-block settings" href="{{ path('settings') }}">Settings</a></li>
+                    <li><a data-toggle="tooltip" data-placement="right" title="Settings" class="text-white my-4 d-block newsletter" href="{{ path('newsletter') }}">Newsletter</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="wrapper">
+            <header class="bg-purple">
+                <nav class="navbar navbar-expand-lg">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="flex-grow-1">
+                        <img class="btn-menu" src="{{ asset('images/arrows.svg') }}" width="30" alt="Menu">
+                    </div>
+                    <h1 class="my-0 text-white flex-grow-1">{{ title }}</h1>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img class="rounded-circle" src="http://placehold.it/50x50" alt="Profile">
+                                </a>
+                                <div class="dropdown-menu bg-purple" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item text-white" href="{{ path('change_password') }}">Change password</a>
+                                    <a class="dropdown-item text-white" href="{{ path('edit_profile') }}">Edit profile</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-white" href="/logout">Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+
+            <div class="main">
+                {% block body %}{% endblock %}
+            </div>
+
+            <footer class="bg-purple text-center {{ position }}">
+                <p class="my-0 text-white">© MjWebDevelopment 2018</p>
+            </footer>
+        </div>
+        {% block javascripts %}
+            <script src="{{ asset('build/app.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,245 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product - {{ product.subCategory }} - {{ product.brand }}{% endblock %}
+
+{% set header = 'position-relative' %}
+
+{% block body %}
+
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="gallery d-flex align-items-start">
+                    <div class="previews">
+                        {% if product.images|length > 0 %}
+                            {% for image in product.images %}
+                                <a href="#" class="selected" data-full="{{ asset('products/images/alias/medium/' ~ image) }}">
+                                    <img src="{{ asset('products/images/alias/small/' ~ image) }}">
+                                </a>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {% if product.images|length > 0 %}
+                        <div class="full">
+                            <img class="img-fluid" src="{{ asset('products/images/alias/medium/' ~ product.images[0]) }}">
+                        </div>
+                    {% else %}
+                        <div class="full">
+                            <img class="img-fluid" src="http://placehold.it/800x800">
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <h3><b>{{ product.subCategory }} - {{ product.brand }}</b></h3>
+                <h5><b>SKU:</b> {{ product.sku }}</h5>
+                <h5><b>Material:</b> {{ product.material|capitalize }}</h5>
+                <h5 class="mb-0">
+                    <b>Price:</b>
+                    {% if product.discount > 0 %}
+                        <small class="old-price text-danger">
+                            {{ product.price|number_format(2, '.', ',') }} RSD
+                        </small>
+                        {{ (product.price - (product.price * product.discount) / 100)|number_format(2, '.', ',') }} RSD
+                    {% else %}
+                        {{ product.price|number_format(2, '.', ',') }} RSD
+                    {% endif %}
+                </h5>
+                {% if product.publish > date('-15 days') %}
+                    <div class="bg-dark py-2 px-3 d-inline-block mt-4">
+                        <p class="my-0 text-white">NEW</p>
+                    </div>
+                {% endif %}
+                {% if product.discount > 0 %}
+                    <div class="bg-danger py-2 px-3 d-inline-block mt-4">
+                        <p class="my-0 text-white">- {{ product.discount }}%</p>
+                    </div>
+                {% endif %}
+                <div class="">
+                    <form action="#" method="post">
+                        <input type="hidden" name="id" value="{{ product.id }}">
+                        <div class="qty-wrapper d-flex align-items-center my-4">
+                            <span id="decrease" class="minus number flex-grow-1" onclick="decreaseValue()"></span>
+                            <input type="number" id="number" name="qty" class="flex-grow-1 text-center" value="1" min="1">
+                            <span id="increase" class="plus number flex-grow-1" onclick="increaseValue()"></span>
+                        </div>
+                        <button name="btn-qty" type="submit" class="btn btn-success btn-block">Add to cart</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container product-info">
+        <div class="row py-5">
+            <div class="col-md-7">
+                <nav>
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-desc" role="tab" aria-controls="nav-desc" aria-selected="true">Description</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-delivery" role="tab" aria-controls="nav-delivery" aria-selected="false">Delivery</a>
+                    </div>
+                </nav>
+                <div class="tab-content pt-5" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-desc" role="tabpanel" aria-labelledby="nav-home-tab">
+                        {{ product.description|raw }}
+                    </div>
+                    <div class="tab-pane fade" id="nav-delivery" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <p>Delivery is free for all orders over 1.000 RSD</p>
+                        <p>For all orders less then 1.000 RSD delivery fee is 190 RSD with a PDV.</p>
+                        <p>Delivery services will send you a message when they take article from us. From the moment of receiving the message you can expect delivery in next 24 hours</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div id="indicators" class="carousel slide mt-4 mb-5" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        <li data-target="#indicators" data-slide-to="0" class="active"></li>
+                        <li data-target="#indicators" data-slide-to="1"></li>
+                    </ol>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="#" class="box text-center">
+                                        <div class="position-absolute status">
+                                            <div class="bg-dark py-2 px-3 mb-2">
+                                                <p class="my-0 text-white">New</p>
+                                            </div>
+                                            <div class="bg-danger py-2 px-3">
+                                                <p class="my-0 text-white">-20%</p>
+                                            </div>
+                                        </div>
+                                        <div class="pb-5">
+                                            <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                            <span class="text-black-50 my-2 d-block">456456465</span>
+                                            <p class="my-0 text-dark">title</p>
+                                            <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="#" class="box text-center">
+                                        <div class="position-absolute status">
+                                            <div class="bg-dark py-2 px-3 mb-2">
+                                                <p class="my-0 text-white">New</p>
+                                            </div>
+                                            <div class="bg-danger py-2 px-3">
+                                                <p class="my-0 text-white">-20%</p>
+                                            </div>
+                                        </div>
+                                        <div class="pb-5">
+                                            <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                            <span class="text-black-50 my-2 d-block">456456465</span>
+                                            <p class="my-0 text-dark">title</p>
+                                            <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="#" class="box text-center">
+                                        <div class="position-absolute status">
+                                            <div class="bg-dark py-2 px-3 mb-2">
+                                                <p class="my-0 text-white">New</p>
+                                            </div>
+                                            <div class="bg-danger py-2 px-3">
+                                                <p class="my-0 text-white">-20%</p>
+                                            </div>
+                                        </div>
+                                        <div class="pb-5">
+                                            <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                            <span class="text-black-50 my-2 d-block">456456465</span>
+                                            <p class="my-0 text-dark">title</p>
+                                            <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="#" class="box text-center">
+                                        <div class="position-absolute status">
+                                            <div class="bg-dark py-2 px-3 mb-2">
+                                                <p class="my-0 text-white">New</p>
+                                            </div>
+                                            <div class="bg-danger py-2 px-3">
+                                                <p class="my-0 text-white">-20%</p>
+                                            </div>
+                                        </div>
+                                        <div class="pb-5">
+                                            <img class="img-fluid" src="http://placehold.it/300x300" alt="Article">
+                                            <span class="text-black-50 my-2 d-block">456456465</span>
+                                            <p class="my-0 text-dark">title</p>
+                                            <h4 class="my-2 text-dark"><b>18.500 RSD</b></h4>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#indicators" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#indicators" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ asset('css/stylesheet.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/jquery.fancybox.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/jquery.fancybox.js') }}"></script>
+    <script>
+        $(document).ready(function(){
+            $('.gallery a').click(function(e){
+                e.preventDefault();
+                var largeImage = $(this).attr('data-full');
+                $('.selected').removeClass();
+                $(this).addClass('selected');
+                $('.full img').hide();
+                $('.full img').attr('src', largeImage);
+                $('.full img').fadeIn();
+
+
+            }); // closing the listening on a click
+            $('.full img').on('click', function(){
+                var modalImage = $(this).attr('src');
+                $.fancybox.open(modalImage);
+            });
+        });
+
+        function increaseValue() {
+            var value = parseInt(document.getElementById('number').value, 10);
+            value = isNaN(value) ? 0 : value;
+            value++;
+            document.getElementById('number').value = value;
+        }
+
+        function decreaseValue() {
+            var value = parseInt(document.getElementById('number').value, 10);
+            value = isNaN(value) ? 0 : value;
+            value < 1 ? value = 1 : '';
+            value--;
+            console.log(value);
+            if (value != 0) {
+                document.getElementById('number').value = value;
+            } else if (value == 0) {
+                document.getElementById('number').value = 1;
+            }
+        }
+    </script>
+{% endblock %}

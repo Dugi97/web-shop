@@ -1,0 +1,61 @@
+{% extends 'base_admin.html.twig' %}
+
+{% set title = 'Make your own structure' %}
+{% set position = 'position-fixed' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-9">
+                <h4 class="text-dark my-5">Create your own choices, which you will be able to use later in order to create the product...</h4>
+                <div class="row my-5">
+                    <div class="col-md-4">
+                        {{ form(fGender) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form(fColour) }}
+                    </div>
+                    <div class="col-md-4">
+                        {{ form(fCategory) }}
+                        <a class="help" href="#" data-toggle="tooltip" data-placement="top" title="For example footwear, accessories... etc">
+                            <img src="{{ asset('images/question-mark.svg') }}" width="20" alt="Help">
+                        </a>
+                    </div>
+                </div>
+                {% if not emptyCat %}
+                    <hr class="purple">
+                {% endif %}
+                <div class="row my-5">
+                    {% if not emptyCat %}
+                        <div class="col-md-4">
+                            {{ form(fSubCat) }}
+                            <a class="help" href="#" data-toggle="tooltip" data-placement="top" title="For example T-shirt, shirt, shoes... etc. And choose which category it belongs to">
+                                <img src="{{ asset('images/question-mark.svg') }}" width="20" alt="Help">
+                            </a>
+                        </div>
+                    {% endif %}
+                    {% if not emptySubCat %}
+                        <div class="col-md-4">
+                            {{ form(fBrand) }}
+                            <a class="help" href="#" data-toggle="tooltip" data-placement="top" title="For example Nike, Puma... etc. And choose which sub category it belongs to">
+                                <img src="{{ asset('images/question-mark.svg') }}" width="20" alt="Help">
+                            </a>
+                        </div>
+                    {% endif %}
+                    <div class="col-md-4">
+                        {{ form(fSize) }}
+                    </div>
+                </div>
+                <hr class="purple">
+                <div class="row">
+                    <div class="col-md-4">
+                        {{ form(fMaterial) }}
+                        <a class="help" href="#" data-toggle="tooltip" data-placement="top" title="For example Leather, Linen, India rubber ... etc.">
+                            <img src="{{ asset('images/question-mark.svg') }}" width="20" alt="Help">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
