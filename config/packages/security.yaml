@@ -1,22 +1,41 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
     providers:
-        in_memory: { memory: null }
+        user_db_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            provider:  user_db_provider
+            form_login:
+                login_path: login
+                check_path: login
+                use_referer: true
+            logout:
+                path:   /logout
+                target: /
+                invalidate_session: false
+                delete_cookies:
+                    a: { path: null, domain: null }
+                    b: { path: null, domain: null }
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+       - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/register, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/forgot/password/*, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/change/password/*, roles: [ROLE_USER, ROLE_SUPER_ADMIN] }
+       - { path: ^/edit/profile, roles: [ROLE_USER, ROLE_SUPER_ADMIN] }
+       - { path: ^/newsletter/unsubscribe, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/info, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+       - { path: ^/logout, roles: [ROLE_USER] }
+       - { path: ^/admin, roles: [ROLE_SUPER_ADMIN, ROLE_USER] }
+       - { path: ^/, roles: [ROLE_USER, IS_AUTHENTICATED_ANONYMOUSLY] }
