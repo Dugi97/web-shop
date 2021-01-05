@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "babel-preset-stage-1": "^6.1.18",
-    "axios": "^0.17.1",
+    "axios": "^0.21.1",
     "bootstrap": "^4.1.1",
     "codemirror": "^5.41.0",
     "hamburgers": "^0.9.3",
